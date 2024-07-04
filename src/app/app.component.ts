@@ -1,5 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, Component, ElementRef, viewChild } from '@angular/core';
-import type IdsModuleNav from 'ids-enterprise-wc/components/ids-module-nav/ids-module-nav';
+import { CUSTOM_ELEMENTS_SCHEMA, Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
@@ -9,22 +8,13 @@ import type IdsModuleNav from 'ids-enterprise-wc/components/ids-module-nav/ids-m
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppComponent {
-  moduleNav = viewChild<ElementRef<IdsModuleNav>>('moduleNav');
 
   actions: Action[] = INITIAL_ACTIONS;
 
   ngAfterViewInit() {
-    this.moduleNav()!.nativeElement.displayMode = "expanded";
-
     setTimeout(() => {
       this.actions = [...this.actions, ...DELAYED_ACTIONS];
     }, 1000)
-  }
-
-  toggleMenu() {
-    const moduleNav = this.moduleNav()!.nativeElement;
-    const displayMode = moduleNav.displayMode;
-    moduleNav.displayMode = displayMode === "expanded" ? "collapsed" : "expanded";
   }
 }
 

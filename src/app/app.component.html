@@ -1,47 +1,58 @@
 <ids-container role="main">
-  <ids-module-nav #moduleNav responsive>
-    <ids-module-nav-bar>
+  <ids-app-menu-container>
+    <ids-app-menu [target]="trigger" visible>
       <ids-accordion>
-        <ids-accordion-section slot="" grow>
-          @for (action of actions; track action) {
-          <ids-accordion-panel>
-            <ids-module-nav-item slot="header" [icon]="action.icon">
-              <ids-text font-size="16" overflow="ellipsis">{{ action.text }}</ids-text>
-            </ids-module-nav-item>
-            @for (child of action.children; track child) {
-            <ids-accordion-panel slot="content">
-              <ids-module-nav-item slot="header">
-                <ids-text font-size="14">{{ child }}</ids-text>
-              </ids-module-nav-item>
-            </ids-accordion-panel>
+        @for (action of actions; track $index) {
+        <ids-accordion-panel>
+          <ids-accordion-header slot="header" [icon]="action.icon">
+            <ids-text font-size="16">{{ action.text }}</ids-text>
+          </ids-accordion-header>
+          @if (action.children?.length) {
+          <ids-accordion-panel slot="content">
+            @for (child of action.children; track $index) {
+            <ids-accordion-header slot="header">
+              <ids-text font-size="14">{{ child }}</ids-text>
+            </ids-accordion-header>
             }
           </ids-accordion-panel>
           }
-        </ids-accordion-section>
+        </ids-accordion-panel>
+        }
       </ids-accordion>
-    </ids-module-nav-bar>
+    </ids-app-menu>
 
-    <ids-module-nav-content>
-      <ids-header>
-        <ids-toolbar>
-          <ids-toolbar-section type="button">
-            <ids-button icon="menu" (click)="toggleMenu()">
-            </ids-button>
-          </ids-toolbar-section>
-          <ids-toolbar-section type="title">
-            <ids-text font-size="20" type="h1">
-              Page Title
-            </ids-text>
-          </ids-toolbar-section>
-        </ids-toolbar>
-      </ids-header>
+    <ids-layout-flex direction="column" gap="0" full-height>
+      <ids-layout-flex-item>
+        <ids-header>
+          <ids-toolbar>
+            <ids-toolbar-section type="button">
+              <ids-button #trigger icon="menu">
+                <span class="audible">Open App Menu</span>
+              </ids-button>
+            </ids-toolbar-section>
+            <ids-toolbar-section type="title">
+              <ids-text font-size="20" type="h1">App Menu Example</ids-text>
+            </ids-toolbar-section>
+            <ids-toolbar-section align="end" type="button">
+              <ids-theme-switcher mode="light"></ids-theme-switcher>
+            </ids-toolbar-section>
+          </ids-toolbar>
+        </ids-header>
+      </ids-layout-flex-item>
 
-      <ids-text>
-        When actions (ids-accordion-panel) are added after the Module Nav has already been created, the menu titles are
-        not visible at all. When the menu is collapsed and then expanded again, the menu titles are visible but do not
-        render properly. They get a different text color and the selection state and accordion chevron do not work.
-      </ids-text>
-
-    </ids-module-nav-content>
-  </ids-module-nav>
+      <ids-layout-flex-item grow="1" overflow="hidden">
+        <ids-scroll-container>
+          <ids-layout-grid auto-fit="true" padding="md">
+            <ids-text font-size="12" type="h1">IDS Module Nav</ids-text>
+          </ids-layout-grid>
+          <ids-layout-grid auto-fit="true" gap="md" padding-x="md">
+            <ids-layout-grid-cell>
+              <ids-text type="p">Use the Hamburger button in the header to change display. Also use the browser viewport
+                to observe mobile/responsve behavior.</ids-text>
+            </ids-layout-grid-cell>
+          </ids-layout-grid>
+        </ids-scroll-container>
+      </ids-layout-flex-item>
+    </ids-layout-flex>
+  </ids-app-menu-container>
 </ids-container>
